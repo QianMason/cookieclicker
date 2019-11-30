@@ -1,5 +1,16 @@
 <script>
+    function update() {
+        document.getElementById('text').value = cookiecount;
+        document.getElementById('costAutoClick').innerHTML = ((autoclicker+1)*10) + " Cookies";
+        document.getElementById('numAutoClick').innerHTML = "You own " + autoclicker + " Auto Clickers"
+    }
     var cookiecount = 0;
+    var autoclicker = 0;
+    function timer() {
+        cookiecount = cookiecount + autoclicker;
+        update()
+    }
+    setInterval(timer , 1000);
 </script>
 
 
@@ -8,11 +19,16 @@
         img:active {
             transform: scale(.9);
           }
+        cursor:active {
+            border:none;
+            background-color:transparent;
+            outline:none;
+        }
     </style>
-    <head><title>0 Cookies</title></head>
+    <head><title>Cookie Clicker</title></head>
     <body>
 
-        <a href=# onclick="add()"><img src="cookie.png"></a>
+        <a href=# onClick="add()"><img src="cookie.png"></a>
         <br><br>
         You got:
         <input type="text" id="text" disabled style= text-align:center>
@@ -20,7 +36,6 @@
         function add() {
             cookiecount = cookiecount + 1
             document.getElementById('text').value = cookiecount;
-            document.title = cookiecount + " Cookies";
         }
         </script>
         Cookies
@@ -28,9 +43,28 @@
 
         <button><a href="#" onClick="save()">Save</a></button>
         <button><a href="#" onClick="load()">Load</a></button>
+
+        <br><br>
+        <p>Buy Auto Clicker</p>
+        <button><a href="#" onClick="buyAutoClick()"><img src="cursor.png" id="cursor" height="42" width="42"></a></button>
+        <p id="costAutoClick">10 Cookies</p>
+        <p id="numAutoClick">You own 0 Auto Clickers</p>
         <script>
         function save() {
-            localStorage.setItem()
+            localStorage.setItem("cookiecount", cookiecount)
+            localStorage.setItem("autoclicker", autoclicker);
+        }
+        function load() {
+            cookiecount = parseInt(localStorage.getItem("cookiecount"));
+            autoclicker = parseInt(localStorage.getItem("autoclicker"));)
+            update();
+        }
+        function buyAutoClick() {
+            if (cookiecount >= ((autoclicker+1) * 10)) {
+                cookiecount = cookiecount - (autoclicker+1) * 10;
+                autoclicker = autoclicker + 1;
+                update();
+            }
         }
         </script>
     </body>
